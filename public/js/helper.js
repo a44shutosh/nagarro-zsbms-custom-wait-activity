@@ -316,7 +316,7 @@ function addGroup(dynamicAttLength = 1) {
 
 
 function getDynamicAttributeHTML(tab, group) {
-    console.log("addGroup getDynamicAttributeHTML class");
+    console.log("getDynamicAttributeHTML: tab, group", tab, group);
     let logicalOp = '';
     let logicalOpEnd = '';
     if (group) {
