@@ -365,7 +365,7 @@ function getinnerHtmlStructure(userConfigValues){
             
         }
     }
-    logicalOpEnd = '   </div>';
+    innerHtml += '   </div>';
         radioBtnId++;
     console.log("innder html final", innerHtml);
     return innerHtml;
