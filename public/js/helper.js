@@ -339,7 +339,7 @@ function getinnerHtmlStructure(userConfigValues, nameValue= ''){
     for(let i=0;i< userConfigValues.length;i++){
         if(userConfigValues[i].logicalOp ){
             console.log("getinnerHtmlStructure: if condition ");
-            innerHtml+= getinnerHtmlStructure(userConfigValues[i].dynamicAttributes,nameValue);
+            innerHtml+= getinnerHtmlStructure(userConfigValues[i].dynamicAttributes,i);
             console.log("getinnerHtmlStructure: if condition output", innerHtml, userConfigValues[i].logicalOp);
         }else{
             console.log("getinnerHtmlStructure: else condition ", i);
@@ -360,7 +360,7 @@ function getinnerHtmlStructure(userConfigValues, nameValue= ''){
                 console.log("getinnerHtmlStructure: else if condition output", innerHtml);
             }else{
                 console.log("getinnerHtmlStructure: else else condition ");
-                innerHtml+= getDynamicAttributeHTML(i, 0);
+                innerHtml+= getDynamicAttributeHTML(i, 0, nameValue) ;
                 console.log("getinnerHtmlStructure: else else conditionoutput", innerHtml);    
             }
             
