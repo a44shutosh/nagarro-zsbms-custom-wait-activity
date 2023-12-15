@@ -84,14 +84,14 @@ exports.save = function (req, res) {
  * POST Handler for /execute/ route of Activity.
  */
 exports.execute = function (req, res) {
-    console.log("execute function called")
-    function deduceDG(uc) {
-        console.log("deduceDG function called")
-        const eachConditionResults = (uc.dynamicAttributes || []).map(da => {
-            console.log({da})
-            if (da.logicalOp) {
-               return deduceDG(da);
-            } else {
+    function computeWaitTime(decoded) {
+        console.log('Computing wait time...');
+        let date;
+        const inArgs = decoded.inArguments[0] || {};
+        for (let uc of (inArgs.userConfig || [])) {
+            const eachConditionResults = (uc.dynamicAttributes || []).map(da => {
+                console.log({da})
+
                 /* TODO: lt gt operator to be used only for int types */
                 switch (da.operator) {
                     case "eq":
@@ -106,42 +106,14 @@ exports.execute = function (req, res) {
                         return inArgs[da.property] > da.operand;
                     case "ge":
                         return inArgs[da.property] >= da.operand;
-                    case "ew":
-                            return inArgs[da.property].endsWith(da.operand);
-                    case "sw":
-                            return inArgs[da.property].startsWith(da.operand);
-                    case "eiww":
-                            return inArgs[da.property].includes(da.operand);
-                    case "co":
-                            return inArgs[da.property].includes(a.operand);    
-                    case "dnco":
-                            return !inArgs[da.property].includes(da.operand);
-                    // case "iAo":
-                    //         return !inArgs[da.property].includes(da.operand);
-                    // case "bA":
-                    //         return !inArgs[da.property].includes(da.operand);
-                    // case "aA":
-                    //         return !inArgs[da.property].includes(da.operand);                 
-
-
                     default:
                         return false;
                 }
-            }
-        });
+            });
 
-        let isAnd = uc.logicalOp === 'and';
-        const dgConditionMatches = eachConditionResults.reduce((acc, curr) => isAnd ? acc && curr : acc || curr);
-        console.log({bools: eachConditionResults, out: dgConditionMatches});
-        return dgConditionMatches;
-    }
-
-    function computeWaitTime(decoded) {
-        console.log('Computing wait time...');
-        let date;
-        const inArgs = decoded.inArguments[0] || {};
-        for (let uc of (inArgs.userConfig || [])) {
-            const dgConditionMatches = deduceDG(uc);
+            let isAnd = uc.dynamicAttributeLogicalOperator === 'and';
+            const dgConditionMatches = eachConditionResults.reduce((acc, curr) => isAnd ? acc && curr : acc || curr);
+            console.log({bools: eachConditionResults, out: dgConditionMatches});
 
             /* dynamic attributes matches the specified condition for the Journey data */
             if (dgConditionMatches) {
@@ -196,11 +168,10 @@ exports.execute = function (req, res) {
     }
 
     JWT(req.body, process.env.jwtSecret, (err, decoded) => {
-        console.log("JWT function called")
 
         // verification error -> unauthorized request
         if (err) {
-            console.error("error found here in JWT",err);
+            console.error(err);
             return res.status(401).end();
         }
 
@@ -231,14 +202,14 @@ exports.execute = function (req, res) {
             let path;
             if (waitTime) {
                 path = 'wait_path';
-                console.log('Path selected: ', path, "decodedArgs", JSON.stringify(decodedArgs));
+                console.log('Path selected: ', path);
                 const responseObject = {"waitTime": waitTime};
                 console.log('Response object to JB: ', JSON.stringify(responseObject));
                 res.status(200).json(responseObject);
 
             } else {
                 path = 'reminder_path';
-                console.log('Path selected: ', path, "decodedArgs", JSON.stringify(decodedArgs));
+                console.log('Path selected: ', path);
                 apiService.exitContact(decodedArgs.activityInfo.journeyName, decoded.keyValue)
                     .then(res => {
                         console.log('Contact exited successfully');
@@ -248,7 +219,6 @@ exports.execute = function (req, res) {
                 });
             }
 
-            // Old logic to save the wait time in the data extension
             if (waitTime && useDEColumnForWaitTime) {
                 console.log('Saving wait time...');
                 apiService.saveWaitTime(waitTime, decoded)
