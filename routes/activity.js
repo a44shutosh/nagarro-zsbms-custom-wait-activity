@@ -229,14 +229,14 @@ exports.execute = function (req, res) {
             let path;
             if (waitTime) {
                 path = 'wait_path';
-                console.log('Path selected: ', path);
+                console.log('Path selected: ', path, "decodedArgs", JSON.stringify(decodedArgs));
                 const responseObject = {"waitTime": waitTime};
                 console.log('Response object to JB: ', JSON.stringify(responseObject));
                 res.status(200).json(responseObject);
 
             } else {
                 path = 'reminder_path';
-                console.log('Path selected: ', path);
+                console.log('Path selected: ', path, "decodedArgs", JSON.stringify(decodedArgs));
                 apiService.exitContact(decodedArgs.activityInfo.journeyName, decoded.keyValue)
                     .then(res => {
                         console.log('Contact exited successfully');
