@@ -84,8 +84,9 @@ exports.save = function (req, res) {
  * POST Handler for /execute/ route of Activity.
  */
 exports.execute = function (req, res) {
+    console.log("execute function called")
     function deduceDG(uc) {
-
+        console.log("deduceDG function called")
         const eachConditionResults = (uc.dynamicAttributes || []).map(da => {
             console.log({da})
             if (da.logicalOp) {
@@ -195,10 +196,11 @@ exports.execute = function (req, res) {
     }
 
     JWT(req.body, process.env.jwtSecret, (err, decoded) => {
+        console.log("JWT function called")
 
         // verification error -> unauthorized request
         if (err) {
-            console.error(err);
+            console.error("error found here in JWT",err);
             return res.status(401).end();
         }
 
