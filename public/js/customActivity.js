@@ -515,7 +515,7 @@ define([
         $('.logical-op-group').on('change', '.attribute-select, .operator-select', function () {
             // Get the selected value from the dropdown
             var selectedValue = $(this).val();
-            console.log
+            console.log("print selected value", selectedValue);
 
             // Find the corresponding textbox within the same row
             var correspondingTextbox = $(this).closest('.dynamic-attribute-row').find('.operand-input');
@@ -527,6 +527,7 @@ define([
         // Callback function to handle dropdown change
         function handleDropdownChange(value, textbox) {
             // Check the selected value and update the textbox type accordingly
+            console.log("aaaaaaaaaaaaaa",JSON.stringify(schemadata));
             let schemas = schemadata.schema;
             for (let i = 0; i < schemas.length; i++) {
             if (value === schemas[i].name && schemas[i].type === 'Date') {
