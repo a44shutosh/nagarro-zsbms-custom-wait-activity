@@ -512,36 +512,6 @@ define([
             }
         }
 
-        $('.logical-op-group').on('change', '.attribute-select, .operator-select', function () {
-            // Get the selected value from the dropdown
-            var selectedValue = $(this).val();
-            console.log("print selected value", selectedValue);
-
-            // Find the corresponding textbox within the same row
-            var correspondingTextbox = $(this).closest('.dynamic-attribute-row').find('.operand-input');
-
-            // Call the callback function with the selected value and corresponding textbox
-            handleDropdownChange(selectedValue, correspondingTextbox);
-        });
-
-        // Callback function to handle dropdown change
-        function handleDropdownChange(value, textbox) {
-            // Check the selected value and update the textbox type accordingly
-            console.log("aaaaaaaaaaaaaa",JSON.stringify(schemadata));
-            let schemas = schemadata.schema;
-            for (let i = 0; i < schemas.length; i++) {
-            if (value === schemas[i].name && schemas[i].type === 'Date') {
-                console.log("schema values", schemas[i])
-                textbox.prop('type', 'date');
-            }else if(value === schemas[i].name && schemas[i].type !== 'Date'){
-                textbox.prop('type', 'text');
-            } 
-        }
-
-            // Set the value of the textbox
-            //textbox.val(value);
-        }
-
         function onRequestedTriggerEventDefinition(eventDefinitionModel) {
             if (eventDefinitionModel) {
                 journeyName = eventDefinitionModel.name;
