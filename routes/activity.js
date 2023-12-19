@@ -84,6 +84,7 @@ exports.save = function (req, res) {
  * POST Handler for /execute/ route of Activity.
  */
 exports.execute = function (req, res) {
+
     function computeWaitTime(decoded) {
         console.log('Computing wait time...');
         let date;

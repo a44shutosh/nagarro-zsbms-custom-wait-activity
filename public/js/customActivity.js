@@ -424,16 +424,20 @@ define([
 
         function configureValuesToHTML(data, nameValue= ''){
             let dynamicValues = data.dynamicAttributes;
+            let schemas = schemadata.schema;
             //console.log("configureValuesToHTML: ", dynamicValues);
             for (let i=0;i< dynamicValues.length;i++) {
                         
                     if(dynamicValues[i].logicalOp){
                         configureValuesToHTML(dynamicValues[i],i+nameValue);
-                    }else{
-                        //console.log("configureValuesToHTML: html", nameValue, i ,$(`#dynamicAtt-prop-${nameValue}${i}`).html(),$(`#dynamicAtt-op-${nameValue}${i}`).html(), $(`#dynamicAtt-operand-${nameValue}${i}`).html());
-                        // Update the IDs to be unique for each dynamic attribute
-                        // console.log($(`#dynamicAtt-prop-0`).html());
-                        // id="dynamicAtt-op-0"
+                    } else{
+                        for (let i = 0; i < schemas.length; i++) {
+                            if (dynamicValues[i].property === schemas[i].name && schemas[i].type === 'Date') {
+                                console.log("schema values", schemas[i])
+                                $(`#dynamicAtt-op-${nameValue}${i}`).prop('type', 'date');
+                            }else if(value === schemas[i].name && schemas[i].type !== 'Date'){
+                                $(`#dynamicAtt-op-${nameValue}${i}`).prop('type', 'text');
+                    } 
                         $(`#dynamicAtt-prop-${nameValue}${i}`).val(dynamicValues[i].property);
                         $(`#dynamicAtt-op-${nameValue}${i}`).val(dynamicValues[i].operator);
                         $(`#dynamicAtt-operand-${nameValue}${i}`).val(dynamicValues[i].operand);
@@ -505,6 +509,35 @@ define([
                     $(".attibute-date").append('<option value="' + schemadata.schema[i].name + '">' + schemadata.schema[i].name + '</option>');
                 }
             }
+        }
+
+        $('.logical-op-group').on('change', '.attribute-select, .operator-select', function () {
+            // Get the selected value from the dropdown
+            var selectedValue = $(this).val();
+            console.log
+
+            // Find the corresponding textbox within the same row
+            var correspondingTextbox = $(this).closest('.dynamic-attribute-row').find('.operand-input');
+
+            // Call the callback function with the selected value and corresponding textbox
+            handleDropdownChange(selectedValue, correspondingTextbox);
+        });
+
+        // Callback function to handle dropdown change
+        function handleDropdownChange(value, textbox) {
+            // Check the selected value and update the textbox type accordingly
+            let schemas = schemadata.schema;
+            for (let i = 0; i < schemas.length; i++) {
+            if (value === schemas[i].name && schemas[i].type === 'Date') {
+                console.log("schema values", schemas[i])
+                textbox.prop('type', 'date');
+            }else if(value === schemas[i].name && schemas[i].type !== 'Date'){
+                textbox.prop('type', 'text');
+            } 
+        }
+
+            // Set the value of the textbox
+            //textbox.val(value);
         }
 
         function onRequestedTriggerEventDefinition(eventDefinitionModel) {
