@@ -37,32 +37,6 @@ $(document).on('click', '.dynamicgroup', function (event) {
     $("#v-pills-dynamic" + getlength).css('display', 'block');
 });
 
-$('.form-select').change(function () {
-    // Get the selected value from the dropdown
-    var selectedValue = $(this).val();
-
-    console.log(schema);
-
-    // Find the corresponding textbox using the classes
-    var correspondingTextbox = $(this).closest('.dropdown-container').find('.textbox');
-
-    // Call the callback function with the selected value and corresponding textbox
-    handleDropdownChange(selectedValue, correspondingTextbox);
-});
-
-// Callback function to handle dropdown change
-function handleDropdownChange(value, textbox) {
-    // Check the selected value and update the textbox type accordingly
-    if (value === 'option2') {
-        textbox.prop('type', 'date');
-    } else {
-        textbox.prop('type', 'text');
-    }
-
-    // Set the value of the textbox
-    textbox.val(value);
-}
-
 $(document).on('click', '#addGroup', function (event) {
     addGroup();
     configureAddGroupButton();
