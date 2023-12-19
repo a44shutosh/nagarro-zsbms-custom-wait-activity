@@ -282,11 +282,11 @@ define([
                 payload['arguments'].execute.inArguments.length > 0
             );
             const inArguments = hasInArguments ? payload['arguments'].execute.inArguments : [];
-            //console.log("reloadUserConfig: inArguments", JSON.stringify(inArguments));
+            console.log("reloadUserConfig: inArguments", JSON.stringify(inArguments));
             // error line
             const hasUserConfig = inArguments[0].userConfig && inArguments[0].userConfig.length;
-            //console.log("reloadUserConfig: userConfig", JSON.stringify(inArguments[0].userConfig));
-            //console.log("reloadUserConfig: hasUserConfig", hasUserConfig);
+            console.log("reloadUserConfig: userConfig", JSON.stringify(inArguments[0].userConfig));
+            console.log("reloadUserConfig: hasUserConfig", hasUserConfig);
             if (useDEColumnForWaitTime) {
                 if (!hasInArguments || !(inArguments[0].activityInfo && inArguments[0].activityInfo.waitTimeColumnName)) {
                     $('#wait-time-col').css('display', 'none');
