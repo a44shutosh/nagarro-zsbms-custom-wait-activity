@@ -483,3 +483,13 @@ function configureTimesDataList() {
 
     $('#times').html(html);
 }
+
+function convertDateFormat(inputDate) {
+    // Split the input date using '-' as the separator
+    const dateParts = inputDate.split('-');
+
+    // Reorder the date parts and join them using '/'
+    let outputDate = `${dateParts[0]}/${dateParts[1]}/${dateParts[2]}`;
+
+    return outputDate;
+}
