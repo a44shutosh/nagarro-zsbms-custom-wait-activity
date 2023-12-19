@@ -512,54 +512,6 @@ define([
             }
         }
 
-        $('.logical-op-group').on('change', '.attribute-select, .operator-select', function () {
-            // Get the selected value from the dropdown
-            var selectedValue = $(this).val();
-            console.log("print selected value", selectedValue);
-
-            // Find the corresponding textbox within the same row
-            var correspondingTextbox = $(this).closest('.dynamic-attribute-row').find('.operand-input');
-            var correspondingSecondDropDown = $(this).closest('.dynamic-attribute-row').find('.operator-select');
-
-            // Call the callback function with the selected value and corresponding textbox
-            handleDropdownChange(selectedValue, correspondingTextbox, correspondingSecondDropDown);
-        });
-
-        // Callback function to handle dropdown change
-        function handleDropdownChange(value, textbox, secondDropdown) {
-            // Check the selected value and update the textbox type accordingly
-            console.log("aaaaaaaaaaaaaa",JSON.stringify(schemadata));
-            secondDropdown.empty();
-            let schemas = schemadata.schema;
-            for (let i = 0; i < schemas.length; i++) {
-            if (value === schemas[i].name && schemas[i].type === 'Date') {
-                console.log("schema values", schemas[i])
-                textbox.prop('type', 'date');
-                secondDropdown.append('<option value="ew">ends With</option>' +
-                '<option value="sw">start with</option>' +
-                '<option value="eiww">exist in whole word</option>' +
-                '<option value="co">contains</option>' +
-                '<option value="dnco">does not contains</option>');
-            }else if(value === schemas[i].name && schemas[i].type !== 'Date'){
-                textbox.prop('type', 'text');
-                secondDropdown.append(
-                '       <option value="gt">is after</option>' +
-                '       <option value="ge">is on or after </option>' +
-                '       <option value="lt">is before</option>' +
-                '       <option value="le">is on or before </option>' +
-                '       <option value="ew">ends With</option>' +
-                '       <option value="sw">start with</option>' +
-                '       <option value="eiww">exist in whole word</option>' +
-                '       <option value="co">contains</option>' +
-                '       <option value="dnco">does not contains</option>');
-
-            } 
-        }
-
-            // Set the value of the textbox
-            //textbox.val(value);
-        }
-
         function onRequestedTriggerEventDefinition(eventDefinitionModel) {
             if (eventDefinitionModel) {
                 journeyName = eventDefinitionModel.name;
