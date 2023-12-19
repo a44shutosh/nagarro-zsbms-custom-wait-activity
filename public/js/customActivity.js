@@ -445,6 +445,7 @@ define([
 
         }
     }
+    }
 
         function getInArgFromConfig(userConfigs) {
             const inArgs = [];
