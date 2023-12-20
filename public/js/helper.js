@@ -399,7 +399,7 @@ function getDynamicAttributeHTML(tab, group, nameValue= '') {
         '<div class="row dynamic-attribute-row dynamic-attribute-row-' + tab + ' mb-3" data-group-pos="' + tab + '">' +
         ' <div class="col-md-3">' +
         ' <select id = "dynamicAtt-prop-' +nameValue+ tab +
-        '" aria-label="Dynamic Attribute" class="form-select attribute-select " style="font-size: 12px;">' +
+        '" aria-label="Dynamic Attribute" class="form-select attribute-select" style="font-size: 12px;">' +
         '   <option>Dynamic Attribute</option>' +
         '   <option value="2">2</option>' +
         '   <option value="3">3</option>' +
