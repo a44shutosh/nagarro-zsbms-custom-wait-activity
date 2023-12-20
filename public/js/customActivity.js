@@ -607,7 +607,7 @@ define([
             //console.log({value});
         });
 
-        $('.logical-op-group').on('change', '.attribute-select, .operator-select',function () {
+        $('.attribute-select').on('change',function () {
             // Get the selected value from the dropdown
             var selectedValue = $(this).val();
             console.log("print selected value", selectedValue);
