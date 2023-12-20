@@ -425,7 +425,7 @@ define([
         function configureValuesToHTML(data, nameValue= ''){
             let dynamicValues = data.dynamicAttributes;
             let schemas = schemadata.schema;
-            console.log("configureValuesToHTML: ", JSOn.stringify(dynamicValues));
+            console.log("configureValuesToHTML: ", JSON.stringify(dynamicValues));
             for (let i=0;i< dynamicValues.length;i++) {
                         
                     if(dynamicValues[i].logicalOp){
