@@ -284,7 +284,7 @@ define([
             const inArguments = hasInArguments ? payload['arguments'].execute.inArguments : [];
             console.log("reloadUserConfig: inArguments", JSON.stringify(inArguments));
             // error line
-            const hasUserConfig = inArguments[0].userConfig && inArguments[0].userConfig.length;
+            const hasUserConfig =inArguments.length > 0 ? inArguments[0].userConfig && inArguments[0].userConfig.length: false;
             console.log("reloadUserConfig: userConfig", JSON.stringify(inArguments[0].userConfig));
             console.log("reloadUserConfig: hasUserConfig", hasUserConfig);
             if (useDEColumnForWaitTime) {
