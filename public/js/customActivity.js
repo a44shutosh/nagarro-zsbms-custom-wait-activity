@@ -607,7 +607,7 @@ define([
             //console.log({value});
         });
 
-        $('.attribute-select').on('change',function () {
+        $('select.attribute-select').on('change',function (e) {
             // Get the selected value from the dropdown
             var selectedValue = $(this).val();
             console.log("print selected value", selectedValue);
