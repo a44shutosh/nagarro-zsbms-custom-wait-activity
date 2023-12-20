@@ -533,6 +533,7 @@ define([
             secondDropdown.empty();
             let schemas = schemadata.schema;
             for (let i = 0; i < schemas.length; i++) {
+                console.log("schemas[i].type !== 'Date'", schemas[i].type !== 'Date', value);
             if (value === schemas[i].name && schemas[i].type === 'Date') {
                 console.log("schema values", schemas[i])
                 textbox.prop('type', 'date');
@@ -544,6 +545,7 @@ define([
             }else if(value === schemas[i].name && schemas[i].type !== 'Date'){
                 textbox.prop('type', 'text');
                 secondDropdown.append(
+                '       <option value="eq">equals</option>' +    
                 '       <option value="gt">is after</option>' +
                 '       <option value="ge">is on or after </option>' +
                 '       <option value="lt">is before</option>' +
