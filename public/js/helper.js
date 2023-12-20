@@ -91,7 +91,7 @@ $(document).on('click', 'button.remove-da', function (event) {
     configureRemoveDArow(currentTab, {currentGroup: currentGroup[0], currentGroupParent});
 });
 
-$('.logical-op-group').on('change', '.attribute-select, .operator-select', function () {
+$('.dynamic-attribute-row').on('change', '.attribute-select, .operator-select',function () {
     // Get the selected value from the dropdown
     var selectedValue = $(this).val();
     console.log("print selected value", selectedValue);
