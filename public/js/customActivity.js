@@ -633,7 +633,7 @@ define([
             //console.log({optionSelected});
         });
 
-        $('select.attribute-select').on('change', function (e) {
+        $('.tab-content').on('change', 'select.attribute-select', function (e) {
             console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
             // Get the selected value from the dropdown
             const optionSelected = $("option:selected", this);
