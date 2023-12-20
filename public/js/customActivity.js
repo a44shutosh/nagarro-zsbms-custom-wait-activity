@@ -435,7 +435,7 @@ define([
                             if (dynamicValues[i].property === schemas[i].name && schemas[i].type === 'Date') {
                                 console.log("schema values", schemas[i])
                                 $(`#dynamicAtt-op-${nameValue}${i}`).prop('type', 'date');
-                            }else if(value === schemas[i].name && schemas[i].type !== 'Date'){
+                            }else if(dynamicValues[i].property === schemas[i].name && schemas[i].type !== 'Date'){
                                 $(`#dynamicAtt-op-${nameValue}${i}`).prop('type', 'text');
                     } 
                         $(`#dynamicAtt-prop-${nameValue}${i}`).val(dynamicValues[i].property);
