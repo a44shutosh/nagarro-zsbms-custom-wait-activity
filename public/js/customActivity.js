@@ -434,9 +434,9 @@ define([
                         for (let i = 0; i < schemas.length; i++) {
                             if (dynamicValues[i].property === schemas[i].name && schemas[i].type === 'Date') {
                                 console.log("schema values", schemas[i])
-                                $(`#dynamicAtt-op-${nameValue}${i}`).prop('type', 'date');
+                                $(`#dynamicAtt-operand-${nameValue}${i}`).prop('type', 'date');
                             }else if(dynamicValues[i].property === schemas[i].name && schemas[i].type !== 'Date'){
-                                $(`#dynamicAtt-op-${nameValue}${i}`).prop('type', 'text');
+                                $(`#dynamicAtt-operand-${nameValue}${i}`).prop('type', 'text');
                     } 
                         $(`#dynamicAtt-prop-${nameValue}${i}`).val(dynamicValues[i].property);
                         $(`#dynamicAtt-op-${nameValue}${i}`).val(dynamicValues[i].operator);
