@@ -431,8 +431,8 @@ define([
                     if(dynamicValues[i].logicalOp){
                         configureValuesToHTML(dynamicValues[i],i+nameValue);
                     } else{
-                        for (let i = 0; i < schemas.length; i++) {
-                            if (dynamicValues[i].property === schemas[i].name && schemas[i].type === 'Date') {
+                        for (let j = 0; j < schemas.length; j++) {
+                            if (dynamicValues[i].property === schemas[j].name && schemas[j].type === 'Date') {
                                 console.log("schema values", schemas[i])
                                 $(`#dynamicAtt-operand-${nameValue}${i}`).prop('type', 'date');
                             }else if(dynamicValues[i].property === schemas[i].name && schemas[i].type !== 'Date'){
