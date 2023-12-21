@@ -421,6 +421,25 @@ define([
                     $("#v-pills-dynamic1").css('display', 'block');
                 });
             });
+            $('.attribute-select').each(function(index, element) {
+                // Check if the value is of type "Date"
+                console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", element);
+                let schemas = schemadata.schema;
+                for (let i = 0; i < schemas.length; i++) {
+                    console.log("schemas[i].type !== 'Date'", schemas[i].type === 'Date', $(element).val());
+                if ($(element).val() === schemas[i].name && schemas[i].type === 'Date') {
+                    // Modify the options of the select element
+                    $(element).html('<option value="ew">ends With</option>' +
+                                    '<option value="sw">start with</option>' +
+                                    '<option value="eiww">exist in whole word</option>' +
+                                    '<option value="co">contains</option>' +
+                                    '<option value="dnco">does not contains</option>');
+                    
+                    // Optionally, you can log a message indicating the modification
+                    console.log(`Options modified for select element at index ${index}`);
+                }
+            }
+            });
             //callback();
         }
 
@@ -661,25 +680,6 @@ define([
             //console.log({value});
         });
 
-        $('.tab-content .form-select.attribute-select').each(function(index, element) {
-            // Check if the value is of type "Date"
-            console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", element);
-            let schemas = schemadata.schema;
-            for (let i = 0; i < schemas.length; i++) {
-                console.log("schemas[i].type !== 'Date'", schemas[i].type !== 'Date', $(element).val());
-            if ($(element).val() === schemas[i].name && schemas[i].type === 'Date') {
-                // Modify the options of the select element
-                $(element).html('<option value="ew">ends With</option>' +
-                                '<option value="sw">start with</option>' +
-                                '<option value="eiww">exist in whole word</option>' +
-                                '<option value="co">contains</option>' +
-                                '<option value="dnco">does not contains</option>');
-                
-                // Optionally, you can log a message indicating the modification
-                console.log(`Options modified for select element at index ${index}`);
-            }
-        }
-        });
         
         function preLocalSetup() {
             local = {};
