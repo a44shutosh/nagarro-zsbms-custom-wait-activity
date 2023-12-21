@@ -81,7 +81,12 @@ define([
             parsePrimary();
 
             // var getattributes = [];
-            reloadUserConfig(function(){setValuesInHTML()});
+            reloadUserConfig(function(){setValuesInHTML(function(){changeOperatorOptionsForDateType()})});
+            //changeOperatorOptionsForDateType(schemadata);
+        }
+
+        changeOperatorOptionsForDateType(){
+            console.log("reached changeOperatorOptionsForDateType");
         }
 
 
@@ -371,7 +376,7 @@ define([
             
         }
 
-        function setValuesInHTML(){
+        function setValuesInHTML(callback){
             const hasInArguments = Boolean(
                 payload['arguments'] &&
                 payload['arguments'].execute &&
@@ -420,6 +425,7 @@ define([
                     $("#v-pills-dynamic1").css('display', 'block');
                 });
             });
+            callback();
         }
 
         function configureValuesToHTML(data, nameValue= ''){
