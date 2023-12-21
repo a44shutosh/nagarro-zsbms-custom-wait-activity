@@ -334,7 +334,7 @@ function getinnerHtmlStructure(userConfigValues, nameValue= ''){
             innerHtml+= getinnerHtmlStructure(userConfigValues[i].dynamicAttributes,i+nameValue);
             //console.log("getinnerHtmlStructure: if condition output", innerHtml, userConfigValues[i].logicalOp);
         }else{
-            console.log("getinnerHtmlStructure: else condition ", i);
+            console.log("getinnerHtmlStructure: else condition ", i, userConfigValues[i]);
 
             if(i==0){
                 //console.log("getinnerHtmlStructure: else if condition ");
