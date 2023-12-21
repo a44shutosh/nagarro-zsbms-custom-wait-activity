@@ -411,16 +411,12 @@ function getDynamicAttributeHTML(tab, group, nameValue= '', dateTypeProperty= fa
         '   <select id = "dynamicAtt-op-' +nameValue+ tab +
         '"   aria-label="Dynamic Attribute" class="form-select operator-select" style="font-size: 12px;">' +
         // '  <option>Select Relationship</option>' +
-        '       <option value="eq">equals</option>' +
-       '       <option value="gt">is after</option>' +
-       '       <option value="ge">is on or after </option>' +
-       '       <option value="lt">is before</option>' +
-       '       <option value="le">is on or before </option>' +
-       '       <option value="ew">ends With</option>' +
-       '       <option value="sw">start with</option>' +
-       '       <option value="eiww">exist in whole word</option>' +
-       '       <option value="co">contains</option>' +
-       '       <option value="dnco">does not contains</option>'  +
+        '       <option value="eq">equals</option>' +    
+        '       <option value="ew">ends With</option>' +
+        '       <option value="sw">start with</option>' +
+        '       <option value="eiww">exist in whole word</option>' +
+        '       <option value="co">contains</option>' +
+        '       <option value="dnco">does not contains</option>' +
         '   </select>' +
         '   </div>' +
         '   <div class="col-md-3">' +
