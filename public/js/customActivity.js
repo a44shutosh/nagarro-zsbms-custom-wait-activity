@@ -430,11 +430,11 @@ define([
                 if ($(element).val() === schemas[i].name && schemas[i].type === 'Date') {
                     // Modify the options of the select element
                     var correspondingSecondDropDown = $(this).closest('.dynamic-attribute-row').find('.operator-select')
-                    $(correspondingSecondDropDown).html('<option value="ew">ends With</option>' +
-                                    '<option value="sw">start with</option>' +
-                                    '<option value="eiww">exist in whole word</option>' +
-                                    '<option value="co">contains</option>' +
-                                    '<option value="dnco">does not contains</option>');
+                    $(correspondingSecondDropDown).html('       <option value="eq">equals</option>' +    
+                    '       <option value="gt">is after</option>' +
+                    '       <option value="ge">is on or after </option>' +
+                    '       <option value="lt">is before</option>' +
+                    '       <option value="le">is on or before </option>' );
                     
                     // Optionally, you can log a message indicating the modification
                     console.log(`Options modified for select element at index ${index}`);
@@ -559,24 +559,20 @@ define([
             if (value === schemas[i].name && schemas[i].type === 'Date') {
                 console.log("schema values", schemas[i])
                 textbox.prop('type', 'date');
-                secondDropdown.append('<option value="ew">ends With</option>' +
-                '<option value="sw">start with</option>' +
-                '<option value="eiww">exist in whole word</option>' +
-                '<option value="co">contains</option>' +
-                '<option value="dnco">does not contains</option>');
-            }else if(value === schemas[i].name && schemas[i].type !== 'Date'){
-                textbox.prop('type', 'text');
-                secondDropdown.append(
-                '       <option value="eq">equals</option>' +    
+                secondDropdown.append('       <option value="eq">equals</option>' +    
                 '       <option value="gt">is after</option>' +
                 '       <option value="ge">is on or after </option>' +
                 '       <option value="lt">is before</option>' +
-                '       <option value="le">is on or before </option>' +
-                '       <option value="ew">ends With</option>' +
-                '       <option value="sw">start with</option>' +
-                '       <option value="eiww">exist in whole word</option>' +
-                '       <option value="co">contains</option>' +
-                '       <option value="dnco">does not contains</option>');
+                '       <option value="le">is on or before </option>' );
+            }else if(value === schemas[i].name && schemas[i].type !== 'Date'){
+                textbox.prop('type', 'text');
+                secondDropdown.append(
+                    '       <option value="eq">equals</option>' +    
+                    '       <option value="ew">ends With</option>' +
+                    '       <option value="sw">start with</option>' +
+                    '       <option value="eiww">exist in whole word</option>' +
+                    '       <option value="co">contains</option>' +
+                    '       <option value="dnco">does not contains</option>');
         
             } 
         }
