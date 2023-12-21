@@ -343,6 +343,15 @@ function getinnerHtmlStructure(userConfigValues, nameValue= ''){
             //console.log("getinnerHtmlStructure: if condition output", innerHtml, userConfigValues[i].logicalOp);
         }else{
             console.log("getinnerHtmlStructure: else condition ", i, userConfigValues[i]);
+            let dateTypeProperty= false;
+            let value = userConfigValues[i].property;
+            let schemas = schemadata.schema;
+            for (let i = 0; i < schemas.length; i++) {
+                console.log("schemas[i].type !== 'Date'", schemas[i].type !== 'Date', value);
+            if (value === schemas[i].name && schemas[i].type === 'Date') {
+                dateTypeProperty = true;
+            }
+        }
 
             if(i==0){
                 //console.log("getinnerHtmlStructure: else if condition ");
@@ -357,11 +366,11 @@ function getinnerHtmlStructure(userConfigValues, nameValue= ''){
                 '     <label class="custom-control-label" for="customRadioInline' +nameValue+ i + '">OR</label>' +
                 '   </div>' +
                 '</div>';
-                innerHtml += getDynamicAttributeHTML(i, 0, nameValue);
+                innerHtml += getDynamicAttributeHTML(i, 0, nameValue, dateTypeProperty);
                 //console.log("getinnerHtmlStructure: else if condition output", innerHtml);
             }else{
                 //console.log("getinnerHtmlStructure: else else condition ");
-                innerHtml+= getDynamicAttributeHTML(i, 0, nameValue) ;
+                innerHtml+= getDynamicAttributeHTML(i, 0, nameValue, dateTypeProperty) ;
                 //console.log("getinnerHtmlStructure: else else conditionoutput", innerHtml);    
             }
             
@@ -375,10 +384,30 @@ function getinnerHtmlStructure(userConfigValues, nameValue= ''){
 }
 
 
-function getDynamicAttributeHTML(tab, group, nameValue= '') {
+function getDynamicAttributeHTML(tab, group, nameValue= '', dateTypeProperty= false) {
     //console.log("getDynamicAttributeHTML: tab, group", tab, group);
     let logicalOp = '';
     let logicalOpEnd = '';
+    let operatorOptions = ';'
+    if(dateTypeProperty == true){
+       operatorOptions = '       <option value="ew">ends With</option>' +
+       '       <option value="sw">start with</option>' +
+       '       <option value="eiww">exist in whole word</option>' +
+       '       <option value="co">contains</option>' +
+       '       <option value="dnco">does not contains</option>' 
+    }else{
+        operatorOptions = '       <option value="eq">equals</option>' +
+       '       <option value="gt">is after</option>' +
+       '       <option value="ge">is on or after </option>' +
+       '       <option value="lt">is before</option>' +
+       '       <option value="le">is on or before </option>' +
+       '       <option value="ew">ends With</option>' +
+       '       <option value="sw">start with</option>' +
+       '       <option value="eiww">exist in whole word</option>' +
+       '       <option value="co">contains</option>' +
+       '       <option value="dnco">does not contains</option>' 
+
+    }
     if (group) {
         logicalOp = ' <div class="row logical-op-group">' +
             '   <div class="logical-ops mb-2" style="display: flex">' +
@@ -411,16 +440,7 @@ function getDynamicAttributeHTML(tab, group, nameValue= '') {
         '   <select id = "dynamicAtt-op-' +nameValue+ tab +
         '"   aria-label="Dynamic Attribute" class="form-select operator-select" style="font-size: 12px;">' +
         // '  <option>Select Relationship</option>' +
-        '       <option value="eq">equals</option>' +
-        '       <option value="gt">is after</option>' +
-        '       <option value="ge">is on or after </option>' +
-        '       <option value="lt">is before</option>' +
-        '       <option value="le">is on or before </option>' +
-        '       <option value="ew">ends With</option>' +
-        '       <option value="sw">start with</option>' +
-        '       <option value="eiww">exist in whole word</option>' +
-        '       <option value="co">contains</option>' +
-        '       <option value="dnco">does not contains</option>' +
+        operatorOptions +
         '   </select>' +
         '   </div>' +
         '   <div class="col-md-3">' +
