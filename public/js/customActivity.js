@@ -429,7 +429,8 @@ define([
                     console.log("schemas[i].type !== 'Date'", schemas[i].type === 'Date', $(element).val());
                 if ($(element).val() === schemas[i].name && schemas[i].type === 'Date') {
                     // Modify the options of the select element
-                    $(element).html('<option value="ew">ends With</option>' +
+                    var correspondingSecondDropDown = $(this).closest('.dynamic-attribute-row').find('.operator-select')
+                    $(correspondingSecondDropDown).html('<option value="ew">ends With</option>' +
                                     '<option value="sw">start with</option>' +
                                     '<option value="eiww">exist in whole word</option>' +
                                     '<option value="co">contains</option>' +
