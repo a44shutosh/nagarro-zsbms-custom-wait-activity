@@ -663,9 +663,10 @@ define([
 
         $('.tab-content .form-select.attribute-select').each(function(index, element) {
             // Check if the value is of type "Date"
+            console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", element);
             let schemas = schemadata.schema;
             for (let i = 0; i < schemas.length; i++) {
-                console.log("schemas[i].type !== 'Date'", schemas[i].type !== 'Date', value);
+                console.log("schemas[i].type !== 'Date'", schemas[i].type !== 'Date', $(element).val());
             if ($(element).val() === schemas[i].name && schemas[i].type === 'Date') {
                 // Modify the options of the select element
                 $(element).html('<option value="ew">ends With</option>' +
