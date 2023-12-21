@@ -421,7 +421,7 @@ define([
                     $("#v-pills-dynamic1").css('display', 'block');
                 });
             });
-            callback();
+            //callback();
         }
 
         function configureValuesToHTML(data, nameValue= ''){
