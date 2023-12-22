@@ -21,7 +21,7 @@ let useDEColumnForWaitTime = false;
 exports.logExecuteData = [];
 
 function logData(req) {
-    logger.info('logData hit', JSON.stringify(req));
+    logger.info('logData hit', req);
     /* exports.logExecuteData.push({
          body: req.body,
          headers: req.headers,
@@ -74,7 +74,7 @@ exports.edit = function (req, res) {
  * POST Handler for /save/ route of Activity.
  */
 exports.save = function (req, res) {
-    logger.info('Save function API hit', JSON.stringify(req));
+    logger.info('Save function API hit', req);
     // Data from the req and put it in an array accessible to the main app.
     //console.log( req.body );
     logData(req);
