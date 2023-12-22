@@ -99,10 +99,10 @@ exports.execute = function (req, res) {
         console.log('Computing wait time... decoded', decoded);
         let date;
         const inArgs = decoded.inArguments[0] || {};
-        console.log('Computing wait time... inArgs', inArgs);
+        console.log('Computing wait time... inArgs', JSON.stringify(inArgs));
         for (let uc of (inArgs.userConfig || [])) {
             console.log("execute function uc.dynamicAttributes", uc.dynamicAttributes);
-            const eachConditionResults = (uc.dynamicAttributes || []).map(da => {
+            const eachConditionResults = (uc.dynamicAttributes.dynamicAttributes || []).map(da => {
                 console.log({da})
 
                 /* TODO: lt gt operator to be used only for int types */
