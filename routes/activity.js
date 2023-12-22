@@ -124,8 +124,8 @@ exports.execute = function (req, res) {
                 }
             });
 
-            let isAnd = uc.dynamicAttributes.dynamicAttributes.logicalOp === 'and';
-            logger.info("execute function uc.dynamicAttribute.dynamicAttributes.logicalOp === 'and'", uc.dynamicAttributes.dynamicAttributes.logicalOp,uc.dynamicAttributes.dynamicAttributes === 'and');
+            let isAnd = uc.dynamicAttributes.logicalOp === 'and';
+            logger.info("execute function uc.dynamicAttribute.dynamicAttributes.logicalOp === 'and'", uc.dynamicAttributes.logicalOp,uc.dynamicAttributes === 'and');
             const dgConditionMatches = eachConditionResults.reduce((acc, curr) => isAnd ? acc && curr : acc || curr);
             logger.info({bools: eachConditionResults, out: dgConditionMatches});
 
