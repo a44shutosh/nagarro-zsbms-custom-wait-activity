@@ -96,14 +96,14 @@ exports.save = function (req, res) {
 exports.execute = function (req, res) {
 
     function computeWaitTime(decoded) {
-        console.log('Computing wait time... decoded', decoded);
+        console.log('Computing wait time... decoded', JSON.stringify(decoded));
         let date;
         const inArgs = decoded.inArguments[0] || {};
-        console.log('Computing wait time... inArgs', inArgs);
+        console.log('Computing wait time... inArgs', JSON.stringify(inArgs));
         for (let uc of (inArgs.userConfig || [])) {
-            console.log("execute function uc.dynamicAttributes", uc.dynamicAttributes);
-            const eachConditionResults = (uc.dynamicAttributes || []).map(da => {
-                console.log({da})
+            console.log("execute function uc.dynamicAttributes", JSON.stringify(uc.dynamicAttributes));
+            const eachConditionResults = (uc.dynamicAttributes.dynamicAttributes || []).map(da => {
+                console.log(JSON.stringify({da}))
 
                 /* TODO: lt gt operator to be used only for int types */
                 switch (da.operator) {
@@ -212,7 +212,7 @@ exports.execute = function (req, res) {
             console.log("execute function decodedArgs", decodedArgs);
             /* determine the wait date time */
 
-            const waitTime = computeWaitTime(decoded);
+            const waitTime = computeWaitTime(JSON.stringify(decoded));
 
             let path;
             if (waitTime) {
