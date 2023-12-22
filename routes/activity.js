@@ -2,6 +2,13 @@
 var util = require('util');
 const moment = require('moment-timezone');
 const apiService = require('./sfmc-api-service');
+const winston = require('winston');
+
+const logger = winston.createLogger({
+  level: 'info',
+  format: winston.format.json(),
+  transports: [new winston.transports.Console()],
+});
 
 // Deps
 const Path = require('path');
@@ -14,6 +21,7 @@ let useDEColumnForWaitTime = false;
 exports.logExecuteData = [];
 
 function logData(req) {
+    logger.info('logData hit', JSON.stringify(req));
     /* exports.logExecuteData.push({
          body: req.body,
          headers: req.headers,
@@ -66,6 +74,7 @@ exports.edit = function (req, res) {
  * POST Handler for /save/ route of Activity.
  */
 exports.save = function (req, res) {
+    logger.info('Save function API hit', JSON.stringify(req));
     // Data from the req and put it in an array accessible to the main app.
     //console.log( req.body );
     logData(req);

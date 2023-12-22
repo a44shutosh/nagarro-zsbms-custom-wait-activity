@@ -211,12 +211,12 @@ define([
             for (let i = 1; i <= totalTabs; i++) {
                 /* Read UI values */
                 let dynamicAttGroup = $(`#dynamicAttribute-${i} .row.logical-op-group`);
-                //console.log("dynamicAttGroup values while saving", JSON.stringify(dynamicAttGroup));
+                console.log("dynamicAttGroup values while saving", JSON.stringify(dynamicAttGroup));
                 if (!(dynamicAttGroup && dynamicAttGroup.length)) {
                     continue;
                 }
                 const dynamicAttributes = getDynamicAttributes(dynamicAttGroup[0]);
-                //console.log('Final da group: ', JSON.stringify(dynamicAttributes),JSON.stringify(dynamicAttGroup[0]) );
+                console.log('Final da group: ', JSON.stringify(dynamicAttributes),JSON.stringify(dynamicAttGroup[0]) );
 
                 let dateAttProp = $(`#dateAtt-prop-${i}`).val();
                 let dateAttDuration = $(`#dateAtt-duration-${i}`).val();
@@ -242,14 +242,14 @@ define([
                     }
                 };
 
-                //console.log("useConfig after values addition",JSON.stringify( userConfig));
+                console.log("useConfig after values addition",JSON.stringify( userConfig));
 
                 if (!validateConfig(userConfig, i)) {
                     break;
                 }
                 userConfigs.push(userConfig);
             }
-            //console.log("user config at last parseUserConfig",JSON.stringify({userConfigs}));
+            console.log("user config at last parseUserConfig",JSON.stringify({userConfigs}));
 
             return userConfigs;
         }
@@ -490,7 +490,7 @@ define([
 
         function save() {
             const userConfig = parseUserConfig();
-            //console.log("userConfig save function", JSON.stringify(userConfig));
+            console.log("userConfig save function", JSON.stringify(userConfig));
             const activityInfo = {
                 journeyName,
                 eventDefinitionKey,
@@ -502,18 +502,18 @@ define([
             };
             
             const inArgs = getInArgFromConfig(userConfig);
-            //console.log("inArgs: save function", JSON.stringify(inArgs));
+            console.log("inArgs: save function", JSON.stringify(inArgs));
             payload['arguments'].execute.inArguments = [{
                 tokens: authTokens,
                 userConfig,
                 activityInfo,
                 ...inArgs,
             }];
-            //console.log("metadata payload", payload['metaData']);
+            console.log("metadata payload", payload['metaData']);
 
             payload['metaData'].isConfigured = true;
 
-            //console.log('Save done: ',JSON.stringify( {payload}));
+            console.log('Save done: ',JSON.stringify( {payload}));
             connection.trigger('updateActivity', payload);
         }
 
@@ -521,7 +521,7 @@ define([
         function updateUIDropdownsWithSchema() {
             $(".attribute-select").html('');
             $(".attibute-date").html('');
-            //console.log("updateUIDropdownsWithSchema: schemadata", JSON.stringify(schemadata));
+            console.log("updateUIDropdownsWithSchema: schemadata", JSON.stringify(schemadata));
             for (let i = 0; i < schemadata.schema.length; i++) {
                 //  getattributes.push(schema.schema[i].name);
                 if(!schemadata.schema[i].name)
