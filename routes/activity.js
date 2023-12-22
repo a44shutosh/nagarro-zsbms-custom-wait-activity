@@ -15,13 +15,14 @@ const Path = require('path');
 const JWT = require(Path.join(__dirname, '..', 'lib', 'jwtDecoder.js'));
 var util = require('util');
 var http = require('https');
+const { decode } = require('punycode');
 
 let useDEColumnForWaitTime = false;
 
 exports.logExecuteData = [];
 
 function logData(req) {
-    logger.info('logData hit', req);
+   // logger.info('logData hit', req);
     /* exports.logExecuteData.push({
          body: req.body,
          headers: req.headers,
@@ -74,7 +75,7 @@ exports.edit = function (req, res) {
  * POST Handler for /save/ route of Activity.
  */
 exports.save = function (req, res) {
-    logger.info('Save function API hit', req);
+    //logger.info('Save function API hit', req);
     // Data from the req and put it in an array accessible to the main app.
     //console.log( req.body );
     logData(req);
@@ -95,10 +96,12 @@ exports.save = function (req, res) {
 exports.execute = function (req, res) {
 
     function computeWaitTime(decoded) {
-        console.log('Computing wait time...');
+        console.log('Computing wait time... decoded', decoded);
         let date;
         const inArgs = decoded.inArguments[0] || {};
+        console.log('Computing wait time... inArgs', inArgs);
         for (let uc of (inArgs.userConfig || [])) {
+            console.log("execute function uc.dynamicAttributes", uc.dynamicAttributes);
             const eachConditionResults = (uc.dynamicAttributes || []).map(da => {
                 console.log({da})
 
@@ -202,11 +205,13 @@ exports.execute = function (req, res) {
                 }
             });
         }
-
+        console.log("execute jwt decode data", decoded);
         if (decoded && decoded.inArguments && decoded.inArguments.length > 0) {
             const decodedArgs = decoded.inArguments[0];
 
+            console.log("execute function decodedArgs", decodedArgs);
             /* determine the wait date time */
+
             const waitTime = computeWaitTime(decoded);
 
             let path;
