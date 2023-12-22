@@ -42,23 +42,23 @@ function logData(req) {
          secure: req.secure,
          originalUrl: req.originalUrl
      });
-     console.log("body: " + util.inspect(req.body));
-     console.log("headers: " + req.headers);
-     console.log("trailers: " + req.trailers);
-     console.log("method: " + req.method);
-     console.log("url: " + req.url);
-     console.log("params: " + util.inspect(req.params));
-     console.log("query: " + util.inspect(req.query));
-     console.log("route: " + req.route);
-     console.log("cookies: " + req.cookies);
-     console.log("ip: " + req.ip);
-     console.log("path: " + req.path);
-     console.log("host: " + req.hostname);
-     console.log("fresh: " + req.fresh);
-     console.log("stale: " + req.stale);
-     console.log("protocol: " + req.protocol);
-     console.log("secure: " + req.secure);
-     console.log("originalUrl: " + req.originalUrl);*/
+     logger.info("body: " + util.inspect(req.body));
+     logger.info("headers: " + req.headers);
+     logger.info("trailers: " + req.trailers);
+     logger.info("method: " + req.method);
+     logger.info("url: " + req.url);
+     logger.info("params: " + util.inspect(req.params));
+     logger.info("query: " + util.inspect(req.query));
+     logger.info("route: " + req.route);
+     logger.info("cookies: " + req.cookies);
+     logger.info("ip: " + req.ip);
+     logger.info("path: " + req.path);
+     logger.info("host: " + req.hostname);
+     logger.info("fresh: " + req.fresh);
+     logger.info("stale: " + req.stale);
+     logger.info("protocol: " + req.protocol);
+     logger.info("secure: " + req.secure);
+     logger.info("originalUrl: " + req.originalUrl);*/
 }
 
 /*
@@ -66,7 +66,7 @@ function logData(req) {
  */
 exports.edit = function (req, res) {
     // Data from the req and put it in an array accessible to the main app.
-    //console.log( req.body );
+    //logger.info( req.body );
     logData(req);
     res.send(200, 'Edit');
 };
@@ -77,13 +77,13 @@ exports.edit = function (req, res) {
 exports.save = function (req, res) {
     //logger.info('Save function API hit', req);
     // Data from the req and put it in an array accessible to the main app.
-    //console.log( req.body );
+    //logger.info( req.body );
     logData(req);
 
     // const dt = moment(new Date());
-    // console.log({dt: dt.toString()});
+    // logger.info({dt: dt.toString()});
     // dt.tz('America/New_York');
-    // console.log({dt: dt.toString()});
+    // logger.info({dt: dt.toString()});
 
     // apiService.exitContact('Testing custom activity N v2', 'johna@gmail.com');
 
@@ -96,14 +96,14 @@ exports.save = function (req, res) {
 exports.execute = function (req, res) {
 
     function computeWaitTime(decoded) {
-        console.log('Computing wait time... decoded', JSON.stringify(decoded));
+        logger.info('Computing wait time... decoded', decoded);
         let date;
         const inArgs = decoded.inArguments[0] || {};
-        console.log('Computing wait time... inArgs', JSON.stringify(inArgs));
+        logger.info('Computing wait time... inArgs', inArgs);
         for (let uc of (inArgs.userConfig || [])) {
-            console.log("execute function uc.dynamicAttributes", JSON.stringify(uc.dynamicAttributes));
+            logger.info("execute function uc.dynamicAttributes", uc.dynamicAttributes);
             const eachConditionResults = (uc.dynamicAttributes.dynamicAttributes || []).map(da => {
-                console.log(JSON.stringify({da}))
+                logger.info({da})
 
                 /* TODO: lt gt operator to be used only for int types */
                 switch (da.operator) {
@@ -126,15 +126,15 @@ exports.execute = function (req, res) {
 
             let isAnd = uc.dynamicAttributeLogicalOperator === 'and';
             const dgConditionMatches = eachConditionResults.reduce((acc, curr) => isAnd ? acc && curr : acc || curr);
-            console.log({bools: eachConditionResults, out: dgConditionMatches});
+            logger.info({bools: eachConditionResults, out: dgConditionMatches});
 
             /* dynamic attributes matches the specified condition for the Journey data */
             if (dgConditionMatches) {
                 let dateAttribute = uc.dateAttribute;
                 const dateStr = inArgs[dateAttribute.property]; // eg. 10/4/2023 12:00:00 AM
-                console.log({dateStr, dateAttributeF: dateAttribute})
+                logger.info({dateStr, dateAttributeF: dateAttribute})
                 date = moment.tz(dateStr, 'M/D/YYYY hh:mm:ss A', dateAttribute.timeZone);
-                console.log('Moment datetime: ', {date, str: date.toString()});
+                logger.info('Moment datetime: ', {date, str: date.toString()});
 
                 switch (dateAttribute.timeline) {
                     case 'On':
@@ -147,33 +147,33 @@ exports.execute = function (req, res) {
                     case 'After':
                         date.add(dateAttribute.duration, dateAttribute.unit);
                 }
-                console.log('date after logic: ', date.toString());
+                logger.info('date after logic: ', date.toString());
 
                 /* if extend is chosen */
                 if (dateAttribute.extendWait) {
-                    console.log("extend time logic....")
+                    logger.info("extend time logic....")
                     const dtStr = moment(date).format('M/D/YYYY') + ' ' + dateAttribute.extendTime;
-                    console.log("extend time logic: Current date with extended time str = ", dtStr);
+                    logger.info("extend time logic: Current date with extended time str = ", dtStr);
                     const extendedDate = moment.tz(dtStr, 'M/D/YYYY hh:mm:ss A', dateAttribute.timeZone);
-                    console.log("extend time logic: Current date with extended time moment = ", extendedDate);
+                    logger.info("extend time logic: Current date with extended time moment = ", extendedDate);
 
-                    console.log("extendedDate.isBefore(date) ? ", extendedDate.isBefore(date));
-                    console.log("extendedDate.isAfter(date) ? ", extendedDate.isAfter(date));
+                    logger.info("extendedDate.isBefore(date) ? ", extendedDate.isBefore(date));
+                    logger.info("extendedDate.isAfter(date) ? ", extendedDate.isAfter(date));
                     if (extendedDate.isAfter(date)) {
                         date = extendedDate;
                     }
-                    console.log('date after extend logic: ', date.toString());
+                    logger.info('date after extend logic: ', date.toString());
                 }
 
                 /* breaking as the first matched condition is taken and rest are ignored */
                 break;
             }
         }// loop ends
-        console.log('Wait time computed: ', {date});
+        logger.info('Wait time computed: ', {date});
         if (date) {
             date.tz('America/New_York');
-            console.log('Final wait time computed after tz change: ', {date});
-            console.log('Final wait time computed formatted in tz: ', {formatted: date.format('M/D/YYYY hh:mm:ss A')});
+            logger.info('Final wait time computed after tz change: ', {date});
+            logger.info('Final wait time computed formatted in tz: ', {formatted: date.format('M/D/YYYY hh:mm:ss A')});
             return date.format('M/D/YYYY hh:mm:ss A');
         } else {
             return date;
@@ -201,41 +201,41 @@ exports.execute = function (req, res) {
                 },
             }, function (error, response, body) {
                 if (!error) {
-                    console.log('Response of PipeDream: ', body);
+                    logger.info('Response of PipeDream: ', body);
                 }
             });
         }
-        console.log("execute jwt decode data", decoded);
+        logger.info("execute jwt decode data", decoded);
         if (decoded && decoded.inArguments && decoded.inArguments.length > 0) {
             const decodedArgs = decoded.inArguments[0];
 
-            console.log("execute function decodedArgs", decodedArgs);
+            logger.info("execute function decodedArgs", decodedArgs);
             /* determine the wait date time */
 
-            const waitTime = computeWaitTime(JSON.stringify(decoded));
+            const waitTime = computeWaitTime(decoded);
 
             let path;
             if (waitTime) {
                 path = 'wait_path';
-                console.log('Path selected: ', path);
+                logger.info('Path selected: ', path);
                 const responseObject = {"waitTime": waitTime};
-                console.log('Response object to JB: ', JSON.stringify(responseObject));
+                logger.info('Response object to JB: ', responseObject);
                 res.status(200).json(responseObject);
 
             } else {
                 path = 'reminder_path';
-                console.log('Path selected: ', path);
+                logger.info('Path selected: ', path);
                 apiService.exitContact(decodedArgs.activityInfo.journeyName, decoded.keyValue)
                     .then(res => {
-                        console.log('Contact exited successfully');
+                        logger.info('Contact exited successfully');
                         res.status(500).json({});
                     }).catch(e => {
-                    console.log('Error in exiting the contact.');
+                    logger.info('Error in exiting the contact.');
                 });
             }
 
             if (waitTime && useDEColumnForWaitTime) {
-                console.log('Saving wait time...');
+                logger.info('Saving wait time...');
                 apiService.saveWaitTime(waitTime, decoded)
                     .then(resp => {
                         // postToPipeDream(waitTime);
@@ -260,7 +260,7 @@ exports.execute = function (req, res) {
  */
 exports.publish = function (req, res) {
     // Data from the req and put it in an array accessible to the main app.
-    //console.log( req.body );
+    //logger.info( req.body );
     logData(req);
     res.send(200, '{"Success":true}');
 };
@@ -270,26 +270,26 @@ exports.publish = function (req, res) {
  */
 exports.validate = function (req, res) {
     // Data from the req and put it in an array accessible to the main app.
-    //console.log( req.body );
+    //logger.info( req.body );
     logData(req);
     res.send(200, {"success": true});
 };
 
 exports.createColumn = async function (req, res) {
-    console.log('Create a DE column req: ', req.body);
+    logger.info('Create a DE column req: ', req.body);
     const body = req.body;
     const fieldName = body.fieldName;
     const deName = body.deName;
-    console.log('Create a DE column inputs: ', {fieldName, deName});
+    logger.info('Create a DE column inputs: ', {fieldName, deName});
     if (!fieldName || !deName) {
         res.status(400).send('Bad request');
     }
     try {
         await apiService.createColumn(fieldName, deName);
-        console.log('Column created');
+        logger.info('Column created');
         res.status(200).send();
     } catch (err) {
-        console.log('Error when creating a Column');
+        logger.info('Error when creating a Column');
         res.status(500).send();
     }
 };
