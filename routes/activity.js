@@ -117,15 +117,15 @@ exports.execute = function (req, res) {
                
         
     }
-    function calculateLogicalValue(uc){
+    function calculateLogicalValue(uc, inArgs){
           const eachConditionResults= [];
           for(let i=0;i<uc.dynamicAttributes.length;i++){
               let da = uc.dynamicAttributes[i];
               if(da.logicalOp ){
                 //   console.log("qqqqqqqqqqq")
-                 eachConditionResults.push(calculateLogicalValue(da));
+                 eachConditionResults.push(calculateLogicalValue(da, inArgs));
                }else{
-                 eachConditionResults.push(checkCondition(da));
+                 eachConditionResults.push(checkCondition(da, inArgs));
                /* TODO: lt gt operator to be used only for int types */
                }
           }
@@ -184,7 +184,7 @@ exports.execute = function (req, res) {
             // logger.info("conditions values and output values",{bools: eachConditionResults, out: dgConditionMatches});
 
 
-            const dgConditionMatches= calculateLogicalValue(uc.dynamicAttributes);
+            const dgConditionMatches= calculateLogicalValue(uc.dynamicAttributes, inArgs);
             /* dynamic attributes matches the specified condition for the Journey data */
             if (dgConditionMatches) {
                 let dateAttribute = uc.dateAttribute;
