@@ -103,7 +103,7 @@ exports.execute = function (req, res) {
         for (let uc of (inArgs.userConfig || [])) {
             logger.info("execute function uc.dynamicAttributes", uc.dynamicAttributes);
             const eachConditionResults = (uc.dynamicAttributes.dynamicAttributes || []).map(da => {
-                logger.info({da})
+                logger.info("condtions which are getting checked",{da})
 
                 /* TODO: lt gt operator to be used only for int types */
                 switch (da.operator) {
@@ -124,10 +124,12 @@ exports.execute = function (req, res) {
                 }
             });
 
+            logger.info("show executed operator values", eachConditionResults);
             let isAnd = uc.dynamicAttributes.logicalOp === 'and';
             logger.info("execute function uc.dynamicAttribute.dynamicAttributes.logicalOp === 'and'", uc.dynamicAttributes.logicalOp,uc.dynamicAttributes === 'and');
+            logger.info("isAnd values",{isAnd: isAnd});
             const dgConditionMatches = eachConditionResults.reduce((acc, curr) => isAnd ? acc && curr : acc || curr);
-            logger.info({bools: eachConditionResults, out: dgConditionMatches});
+            logger.info("conditions values and output values",{bools: eachConditionResults, out: dgConditionMatches});
 
             /* dynamic attributes matches the specified condition for the Journey data */
             if (dgConditionMatches) {
