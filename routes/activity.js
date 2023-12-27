@@ -95,7 +95,7 @@ exports.save = function (req, res) {
  */
 exports.execute = function (req, res) {
 
-    function checkCondition(da){
+    function checkCondition(da, inArgs){
         console.log("check Condtition value", da)
         switch (da.operator) {
                    case "eq":
