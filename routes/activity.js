@@ -95,42 +95,96 @@ exports.save = function (req, res) {
  */
 exports.execute = function (req, res) {
 
+    function checkCondition(da){
+        console.log("check Condtition value", da)
+        switch (da.operator) {
+                   case "eq":
+                       return inArgs[da.property] === da.operand;
+                   case "ne":
+                       return inArgs[da.property] !== da.operand;
+                   case "lt":
+                       return inArgs[da.property] < da.operand;
+                   case "le":
+                       return inArgs[da.property] <= da.operand;
+                   case "gt":
+                       return inArgs[da.property] > da.operand;
+                   case "ge":
+                       return inArgs[da.property] >= da.operand;
+                   default:
+                       return false;
+                   
+               }
+               
+        
+    }
+    function calculateLogicalValue(uc){
+          const eachConditionResults= [];
+          for(let i=0;i<uc.dynamicAttributes.length;i++){
+              let da = uc.dynamicAttributes[i];
+              if(da.logicalOp ){
+                //   console.log("qqqqqqqqqqq")
+                 eachConditionResults.push(calculateLogicalValue(da));
+               }else{
+                 eachConditionResults.push(checkCondition(da));
+               /* TODO: lt gt operator to be used only for int types */
+               }
+          }
+         
+   
+           console.log("show executed operator values", eachConditionResults);
+               let isAnd = uc.logicalOp === 'and';
+               //console.log("execute function uc.dynamicAttribute.dynamicAttributes.logicalOp === 'and'", uc.dynamicAttributes.logicalOp,uc.dynamicAttributes === 'and');
+              // console.log("isAnd values",uc, {isAnd: isAnd});
+               const dgConditionMatches = eachConditionResults.reduce((acc, curr) => isAnd ? acc && curr : acc || curr);
+              // console.log("conditions values and output values",{bools: eachConditionResults, out: dgConditionMatches});
+   
+               return dgConditionMatches;
+       }
+       
+
     function computeWaitTime(decoded) {
         logger.info('Computing wait time... decoded', decoded);
         let date;
         const inArgs = decoded.inArguments[0] || {};
         logger.info('Computing wait time... inArgs', inArgs);
         for (let uc of (inArgs.userConfig || [])) {
-            logger.info("execute function uc.dynamicAttributes", uc.dynamicAttributes);
-            const eachConditionResults = (uc.dynamicAttributes.dynamicAttributes || []).map(da => {
-                logger.info("condtions which are getting checked",{da})
+            // logger.info("execute function uc.dynamicAttributes", uc.dynamicAttributes);
+            // const eachConditionResults = (uc.dynamicAttributes.dynamicAttributes || []).map(da => {
+            //     logger.info("condtions which are getting checked",{da})
+            //     if(da.logicalOp ){
+            //         const decoded = {}
+            //         computeWaitTime(da)
+            //     }else{
 
-                /* TODO: lt gt operator to be used only for int types */
-                switch (da.operator) {
-                    case "eq":
-                        return inArgs[da.property] === da.operand;
-                    case "ne":
-                        return inArgs[da.property] !== da.operand;
-                    case "lt":
-                        return inArgs[da.property] < da.operand;
-                    case "le":
-                        return inArgs[da.property] <= da.operand;
-                    case "gt":
-                        return inArgs[da.property] > da.operand;
-                    case "ge":
-                        return inArgs[da.property] >= da.operand;
-                    default:
-                        return false;
-                }
-            });
+            //     /* TODO: lt gt operator to be used only for int types */
+            //     switch (da.operator) {
+            //         case "eq":
+            //             return inArgs[da.property] === da.operand;
+            //         case "ne":
+            //             return inArgs[da.property] !== da.operand;
+            //         case "lt":
+            //             return inArgs[da.property] < da.operand;
+            //         case "le":
+            //             return inArgs[da.property] <= da.operand;
+            //         case "gt":
+            //             return inArgs[da.property] > da.operand;
+            //         case "ge":
+            //             return inArgs[da.property] >= da.operand;
+            //         default:
+            //             return false;
+            //     }
+            // }
+            // });
 
-            logger.info("show executed operator values", eachConditionResults);
-            let isAnd = uc.dynamicAttributes.logicalOp === 'and';
-            logger.info("execute function uc.dynamicAttribute.dynamicAttributes.logicalOp === 'and'", uc.dynamicAttributes.logicalOp,uc.dynamicAttributes === 'and');
-            logger.info("isAnd values",{isAnd: isAnd});
-            const dgConditionMatches = eachConditionResults.reduce((acc, curr) => isAnd ? acc && curr : acc || curr);
-            logger.info("conditions values and output values",{bools: eachConditionResults, out: dgConditionMatches});
+            // logger.info("show executed operator values", eachConditionResults);
+            // let isAnd = uc.dynamicAttributes.logicalOp === 'and';
+            // logger.info("execute function uc.dynamicAttribute.dynamicAttributes.logicalOp === 'and'", uc.dynamicAttributes.logicalOp,uc.dynamicAttributes === 'and');
+            // logger.info("isAnd values",{isAnd: isAnd});
+            // const dgConditionMatches = eachConditionResults.reduce((acc, curr) => isAnd ? acc && curr : acc || curr);
+            // logger.info("conditions values and output values",{bools: eachConditionResults, out: dgConditionMatches});
 
+
+            const dgConditionMatches= calculateLogicalValue(uc.dynamicAttributes);
             /* dynamic attributes matches the specified condition for the Journey data */
             if (dgConditionMatches) {
                 let dateAttribute = uc.dateAttribute;
