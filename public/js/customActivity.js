@@ -469,53 +469,49 @@ define([
     }
     }
 
-    function userConfigArgs(values){
-        const inArgsUc= [];
-        for(let i=0;i< values.length;i++){
-            let da = values[i];
-            console.log("da.property", da.property, da);
-            if(da.logicalOp){
-                userConfigArgs(da.dynamicAttributes)
+    function userConfigArgsFunction(values) {
+        console.log("222222222222222222");
+        const inArgsUc = [];
+        const stack = [...values]; // Use a stack to simulate recursion
+    
+        while (stack.length > 0) {
+            const current = stack.pop();
+            inArgsUc.push(current.property);
+    
+            if (current.logicalOp) {
+                stack.push(...current.dynamicAttributes.reverse());
             }
-            inArgsUc.push(da.property);
-
         }
-        // (values || []).forEach(da => {
-        //     console.log("da.property", da.property, da);
-        //     if(da.logicalOp){
-        //         userConfigArgs(da.dynamicAttributes)
-        //     }
-        //     inArgsUc.push(da.property);
-            
-        // });
+
+        console.log("33333333333333", inArgsUc);
+        return inArgsUc;
     }
+    
+    async function getInArgFromConfig(userConfigs) {
+        const inArgs = [];
+        const inArgsObj = {};
 
-        function getInArgFromConfig(userConfigs) {
-            const inArgs = [];
-            const inArgsObj = {};
-            //console.log("getInArgFromConfig  userConfigs", JSON.stringify(userConfigs));
-            // error on done stage
-            userConfigs.forEach(uc => {
-                const userConfigArgsValue = userConfigArgs(uc.dynamicAttributes.dynamicAttributes);
-                //console.log("aaaaaaaaaaaaaaaaaaa", uc, uc.dynamicAttributes);
-                // (uc.dynamicAttributes.dynamicAttributes || []).forEach(da => {
-                //     console.log("da.property", da.property, da);
-                //     if(da.logicalOp){
-                //         getInArgFromConfig(userConfigs)
-                //     }
-                //     inArgs.push(da.property);
-                // });
-                inArgs.concat(userConfigArgsValue);
-                console.log("uc.dateAttribute.property", uc.dateAttribute.property);
-                inArgs.push(uc.dateAttribute.property);
-            });
+        for(let i=0;i<userConfigs.length;i++ ){
+            const uc = userConfigs[i];
+            console.log("1111111111111111");
+            const userConfigArgsValue =  userConfigArgsFunction(uc.dynamicAttributes.dynamicAttributes);
+            console.log("44444444444444444", userConfigArgsValue);
+            const userConfigArgsValueFiltered= userConfigArgsValue.filter(value => value );
+            console.log("userConfigArgsValueFiltered", userConfigArgsValueFiltered);
+            inArgs.push(...userConfigArgsValueFiltered);
+            console.log("555555555555555555", inArgs);
+            inArgs.push(uc.dateAttribute.property);
 
-            inArgs.forEach(ia => {
-                inArgsObj[ia] = `{{Event.${eventDefinitionKey}.${ia}}}`;
-            });
-            console.log("inArgs final", inArgs);
-            return inArgsObj;
+            
         }
+        
+        inArgs.forEach(ia => {
+            inArgsObj[ia] = `{{Event.${eventDefinitionKey}.${ia}}}`;
+        });
+        console.log("inArgs final", inArgs);
+        return inArgsObj;
+    }
+    
 
         function save() {
             const userConfig = parseUserConfig();
