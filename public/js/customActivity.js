@@ -479,6 +479,7 @@ define([
                 (uc.dynamicAttributes.dynamicAttributes || []).forEach(da => {
                     inArgs.push(da.property);
                 });
+                console.log("uc.dateAttribute.property", uc.dateAttribute.property);
                 inArgs.push(uc.dateAttribute.property);
             });
 
@@ -530,6 +531,26 @@ define([
                 $(".attribute-select").append('<option value="' + schemadata.schema[i].name + '">' + schemadata.schema[i].name + '</option>');
                 if (schemadata.schema[i].type === 'Date') {
                     $(".attibute-date").append('<option value="' + schemadata.schema[i].name + '">' + schemadata.schema[i].name + '</option>');
+                }
+            }
+        }
+        function addUpdateUIDropdownsWithSchema(row) {
+
+            let attributeSelectDropdown = row
+            console.log("asasasasas", attributeSelectDropdown);
+        
+            attributeSelectDropdown.empty();
+            attributeDateDropdown.empty();
+        
+            console.log("updateUIDropdownsWithSchema: schemadata", JSON.stringify(schemadata));
+        
+            for (let i = 0; i < schemadata.schema.length; i++) {
+                if (!schemadata.schema[i].name)
+                    continue;
+        
+                attributeSelectDropdown.append('<option value="' + schemadata.schema[i].name + '">' + schemadata.schema[i].name + '</option>');
+                if (schemadata.schema[i].type === 'Date') {
+                    attributeDateDropdown.append('<option value="' + schemadata.schema[i].name + '">' + schemadata.schema[i].name + '</option>');
                 }
             }
         }
@@ -598,20 +619,34 @@ define([
         });
 
         $(document).on('click', 'button.add-da', function (event) {
-
-            //console.log("Work inside");
-            //console.log("Schema data", schemadata);
-            updateUIDropdownsWithSchema();
-            /*
-            $(".attribute-select").html('');
-            $(".attibute-date").html('');
-            for (var i = 0; i < schemadata.schema.length; i++) {
-                $(".attribute-select").append('<option value="' + schemadata.schema[i].name + '">' + schemadata.schema[i].name + '</option>');
-                if (schemadata.schema[i].type == 'Date') {
-                    $(".attibute-date").append('<option value="' + schemadata.schema[i].name + '">' + schemadata.schema[i].name + '</option>');
-                }
-            }*/
+            let currentTab = $(this).attr('data-group-pos');
+            console.log("currentTab", currentTab);
+        
+            const dynamicAttribute = getDynamicAttributeHTML(currentTab);
+            let currentActionDiv = $(this).parents().eq(1);
+        
+            $(dynamicAttribute).insertAfter(currentActionDiv);
+            let currentGroup = $(this).parents().eq(2);
+            configureRemoveDArow(currentTab, { currentGroup: currentGroup[0], currentGroupParent: currentGroup.parent()[0] });
+        
+            console.log("qqqqqqqqqqqqqqqqqqqqq", currentActionDiv, "aaaaaaaaaa", dynamicAttribute);
+        
+            const attributeSelectDropdownArr = $('.attribute-select');
+            const attributeSelectDropdown = attributeSelectDropdownArr.last(); // Use .last() instead of [length - 1]
+            attributeSelectDropdown.empty();
+            console.log("attributeSelectDropdown", attributeSelectDropdown, "schemadata", schemadata);
+        
+            for (let i = 0; i < schemadata.schema.length; i++) {
+                if (!schemadata.schema[i].name)
+                    continue;
+        
+                console.log("qqqqqq");
+                attributeSelectDropdown.append('<option value="' + schemadata.schema[i].name + '">' + schemadata.schema[i].name + '</option>');
+            }
+        
+            console.log("attributeSelectDropdown final", attributeSelectDropdown);
         });
+        
 
         $(document).on('click', 'button.add-layer-da',  function (event) {
 
