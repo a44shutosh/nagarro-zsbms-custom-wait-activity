@@ -477,6 +477,7 @@ define([
             userConfigs.forEach(uc => {
                 //console.log("aaaaaaaaaaaaaaaaaaa", uc, uc.dynamicAttributes);
                 (uc.dynamicAttributes.dynamicAttributes || []).forEach(da => {
+                    console.log("da.property", da.property, da);
                     inArgs.push(da.property);
                 });
                 console.log("uc.dateAttribute.property", uc.dateAttribute.property);
