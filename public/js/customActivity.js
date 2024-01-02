@@ -470,14 +470,24 @@ define([
     }
 
     function userConfigArgs(values){
-        const inArgsUc= []
-        (values || []).forEach(da => {
+        const inArgsUc= [];
+        for(let i=0;i< values.length;i++){
+            let da = values[i];
             console.log("da.property", da.property, da);
             if(da.logicalOp){
                 userConfigArgs(da.dynamicAttributes)
             }
             inArgsUc.push(da.property);
-        });
+
+        }
+        // (values || []).forEach(da => {
+        //     console.log("da.property", da.property, da);
+        //     if(da.logicalOp){
+        //         userConfigArgs(da.dynamicAttributes)
+        //     }
+        //     inArgsUc.push(da.property);
+            
+        // });
     }
 
         function getInArgFromConfig(userConfigs) {
@@ -486,7 +496,7 @@ define([
             //console.log("getInArgFromConfig  userConfigs", JSON.stringify(userConfigs));
             // error on done stage
             userConfigs.forEach(uc => {
-                const userConfigArgsValue = userConfigArgs(uc.dynamicAttributes.dynamicAttributes)
+                const userConfigArgsValue = userConfigArgs(uc.dynamicAttributes.dynamicAttributes);
                 //console.log("aaaaaaaaaaaaaaaaaaa", uc, uc.dynamicAttributes);
                 // (uc.dynamicAttributes.dynamicAttributes || []).forEach(da => {
                 //     console.log("da.property", da.property, da);
