@@ -487,7 +487,7 @@ define([
         return inArgsUc;
     }
     
-    async function getInArgFromConfig(userConfigs) {
+    function getInArgFromConfig(userConfigs) {
         const inArgs = [];
         const inArgsObj = {};
 
@@ -509,6 +509,7 @@ define([
             inArgsObj[ia] = `{{Event.${eventDefinitionKey}.${ia}}}`;
         });
         console.log("inArgs final", inArgs);
+        console.log("inArgsObj", inArgsObj);
         return inArgsObj;
     }
     
@@ -527,6 +528,7 @@ define([
             };
             
             const inArgs = getInArgFromConfig(userConfig);
+            console.log("inArgs here", inArgs);
             console.log("inArgs: save function", JSON.stringify(inArgs));
             payload['arguments'].execute.inArguments = [{
                 tokens: authTokens,
