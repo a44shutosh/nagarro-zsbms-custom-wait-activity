@@ -469,17 +469,33 @@ define([
     }
     }
 
+    function userConfigArgs(values){
+        const inArgsUc= []
+        (values || []).forEach(da => {
+            console.log("da.property", da.property, da);
+            if(da.logicalOp){
+                userConfigArgs(da.dynamicAttributes)
+            }
+            inArgsUc.push(da.property);
+        });
+    }
+
         function getInArgFromConfig(userConfigs) {
             const inArgs = [];
             const inArgsObj = {};
             //console.log("getInArgFromConfig  userConfigs", JSON.stringify(userConfigs));
             // error on done stage
             userConfigs.forEach(uc => {
+                const userConfigArgs = userConfigArgs(uc.dynamicAttributes.dynamicAttributes)
                 //console.log("aaaaaaaaaaaaaaaaaaa", uc, uc.dynamicAttributes);
-                (uc.dynamicAttributes.dynamicAttributes || []).forEach(da => {
-                    console.log("da.property", da.property, da);
-                    inArgs.push(da.property);
-                });
+                // (uc.dynamicAttributes.dynamicAttributes || []).forEach(da => {
+                //     console.log("da.property", da.property, da);
+                //     if(da.logicalOp){
+                //         getInArgFromConfig(userConfigs)
+                //     }
+                //     inArgs.push(da.property);
+                // });
+                inArgs.concat(userConfigArgs);
                 console.log("uc.dateAttribute.property", uc.dateAttribute.property);
                 inArgs.push(uc.dateAttribute.property);
             });
@@ -487,6 +503,7 @@ define([
             inArgs.forEach(ia => {
                 inArgsObj[ia] = `{{Event.${eventDefinitionKey}.${ia}}}`;
             });
+            console.log("inArgs final", inArgs);
             return inArgsObj;
         }
 
