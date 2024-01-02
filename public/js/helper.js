@@ -1,6 +1,7 @@
 /* todo:
 *   1. remove group btn - issues select next available, add group number issue
 *   2. check extend time input valid or not */
+//import {addUpdateUIDropdownsWithSchema} from '../js/customActivity'
 
 $('.select').timezones();
 
@@ -59,14 +60,15 @@ $(document).on('click', '.removeGroup', function (event) {
     configureAddGroupButton();
 });
 
-$(document).on('click', 'button.add-da', function (event) {
-    let currentTab = $(this).attr('data-group-pos');
-    const dynamicAttribute = getDynamicAttributeHTML(currentTab);
-    let currentActionDiv = $(this).parents().eq(1);
-    $(dynamicAttribute).insertAfter(currentActionDiv);
-    let currentGroup = $(this).parents().eq(2);
-    configureRemoveDArow(currentTab, {currentGroup: currentGroup[0], currentGroupParent: currentGroup.parent()[0]});
-});
+// $(document).on('click', 'button.add-da', function (event) {
+//     let currentTab = $(this).attr('data-group-pos');
+//     const dynamicAttribute = getDynamicAttributeHTML(currentTab);
+//     let currentActionDiv = $(this).parents().eq(1);
+//     $(dynamicAttribute).insertAfter(currentActionDiv);
+//     let currentGroup = $(this).parents().eq(2);
+//     configureRemoveDArow(currentTab, {currentGroup: currentGroup[0], currentGroupParent: currentGroup.parent()[0]});
+//     addUpdateUIDropdownsWithSchema(dynamicAttribute);
+// });
 
 $(document).on('click', 'button.add-layer-da', function (event) {
     let currentTab = $(this).attr('data-group-pos');
