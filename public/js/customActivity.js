@@ -486,7 +486,7 @@ define([
             //console.log("getInArgFromConfig  userConfigs", JSON.stringify(userConfigs));
             // error on done stage
             userConfigs.forEach(uc => {
-                const userConfigArgs = userConfigArgs(uc.dynamicAttributes.dynamicAttributes)
+                const userConfigArgsValue = userConfigArgs(uc.dynamicAttributes.dynamicAttributes)
                 //console.log("aaaaaaaaaaaaaaaaaaa", uc, uc.dynamicAttributes);
                 // (uc.dynamicAttributes.dynamicAttributes || []).forEach(da => {
                 //     console.log("da.property", da.property, da);
@@ -495,7 +495,7 @@ define([
                 //     }
                 //     inArgs.push(da.property);
                 // });
-                inArgs.concat(userConfigArgs);
+                inArgs.concat(userConfigArgsValue);
                 console.log("uc.dateAttribute.property", uc.dateAttribute.property);
                 inArgs.push(uc.dateAttribute.property);
             });
